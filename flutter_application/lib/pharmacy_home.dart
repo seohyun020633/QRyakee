@@ -1,6 +1,7 @@
 // lib/pharmacy_home.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constant/colors.dart';
+import 'package:flutter_application/pharmacy_chat.dart';
 
 class PharmacyHome extends StatelessWidget {
   final List<Map<String, String>> prescriptions = [
@@ -38,7 +39,7 @@ class PharmacyHome extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              '건강약국',
+              '약국이름',
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
@@ -76,7 +77,11 @@ class PharmacyHome extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
                               onPressed: () {
-                                // TODO: 처방전 확인 로직
+                                // 처방전 확인 버튼
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => const PharmacyChat()),
+                                );
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
