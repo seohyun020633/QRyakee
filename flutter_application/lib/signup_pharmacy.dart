@@ -97,8 +97,8 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
-                  final phoneReg = RegExp(r'^\d{3}-\d{4}-\d{4}\$');
-                  if (value == null || !RegExp(r'^\d{3}-\d{4}-\d{4}\$').hasMatch(value)) {
+                  final phoneReg = RegExp(r'^\d{3}-\d{4}-\d{4}$');
+                  if (value == null || !phoneReg.hasMatch(value)) {
                     return '형식: 000-0000-0000';
                   }
                   return null;
@@ -226,11 +226,12 @@ class PhoneNumberFormatter extends TextInputFormatter {
     if (digits.length <= 3) {
       formatted = digits;
     } else if (digits.length <= 7) {
-      formatted = '\${digits.substring(0, 3)}-\${digits.substring(3)}';
+      formatted = '${digits.substring(0, 3)}-${digits.substring(3)}';
     } else if (digits.length <= 11) {
-      formatted = '\${digits.substring(0, 3)}-\${digits.substring(3, 7)}-\${digits.substring(7)}';
+      formatted = '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
     } else {
-      formatted = '\${digits.substring(0, 3)}-\${digits.substring(3, 7)}-\${digits.substring(7, 11)}';
+      formatted =
+          '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7, 11)}';
     }
 
     return TextEditingValue(
