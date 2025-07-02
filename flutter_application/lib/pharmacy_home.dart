@@ -2,6 +2,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constant/colors.dart';
 import 'package:flutter_application/pharmacy_chat.dart';
+import 'package:flutter_application/pharmacy_prescription.dart';
+import 'package:flutter_application/pharmacy_notification.dart';
 
 class PharmacyHome extends StatelessWidget {
   final List<Map<String, String>> prescriptions = [
@@ -29,9 +31,21 @@ class PharmacyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("홈화면"),
-        centerTitle: true,
+        title: const Text("홈화면", style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),),
         backgroundColor: AppColors.primary,
+        actions: [
+          IconButton(
+          icon: const Icon(Icons.notifications),
+          onPressed: () {
+            Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => PharmacyNotificationPage(),
+      ),
+    );
+          },
+        ),
+      ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
@@ -39,8 +53,8 @@ class PharmacyHome extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              '약국이름',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              '약국메인',
+              style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 16),
             Expanded(
@@ -61,15 +75,15 @@ class PharmacyHome extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Expanded(child: Text('환자이름: ${item["patientName"]}')),
-                              Text('주민번호: ${item["rrn"]}'),
+                              Expanded(child: Text('환자이름: ${item["patientName"]}', style: TextStyle(fontSize: 17),)),
+                              Text('주민번호: ${item["rrn"]}', style: TextStyle(fontSize: 17)),
                             ],
                           ),
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Expanded(child: Text('교부일자: ${item["date"]}')),
-                              Text('교부번호: ${item["number"]}'),
+                              Expanded(child: Text('교부일자: ${item["date"]}', style: TextStyle(fontSize: 17))),
+                              Text('교부번호: ${item["number"]}', style: TextStyle(fontSize: 17)),
                             ],
                           ),
                           const SizedBox(height: 12),
@@ -77,10 +91,15 @@ class PharmacyHome extends StatelessWidget {
                             alignment: Alignment.centerRight,
                             child: ElevatedButton(
                               onPressed: () {
-                                // 처방전 확인 버튼
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => const PharmacyChat()),
+                                  MaterialPageRoute(builder: (context) => PharmacyPrescriptionPage(
+                                      patientName: item["patientName"]!,
+                                      rrn: item["rrn"]!,
+                                      date: item["date"]!,
+                                      number: item["number"]!,
+                                    ),
+                                  ),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
@@ -92,7 +111,7 @@ class PharmacyHome extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              child: const Text('처방전 확인하기'),
+                              child: const Text('처방전 확인하기',style: TextStyle(color: Colors.black,fontSize: 15),),
                             ),
                           ),
                         ],

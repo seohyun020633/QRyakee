@@ -31,7 +31,7 @@ class _UserBottomNavState extends State<UserBottomNav> {
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
         onTap: _onItemTapped,
-        selectedItemColor: AppColors.primary, //선택 시 색깔
+        selectedItemColor: AppColors.primary,
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),

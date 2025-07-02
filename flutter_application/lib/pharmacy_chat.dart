@@ -18,21 +18,21 @@ class _PharmacyChatState extends State<PharmacyChat> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('처방전 상세 정보'),
+        title: const Text('처방전 상세 정보',style: TextStyle(fontSize: 20),),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('환자 이름:'),
-            Text('주민번호:7자리'),
-            Text('교부일자:'),
-            Text('교부번호:'),
-            Text('복용약 정보'),
+            Text('환자 이름:', style: TextStyle(fontSize: 17),),
+            Text('주민번호:7자리', style: TextStyle(fontSize: 17)),
+            Text('교부일자:', style: TextStyle(fontSize: 17)),
+            Text('교부번호:', style: TextStyle(fontSize: 17)),
+            Text('복용약 정보', style: TextStyle(fontSize: 17)),
           ],
         ),
         actions: [
           TextButton(
-            child: const Text('닫기'),
+            child: const Text('닫기', style: TextStyle(fontSize: 15, color: Colors.black)),
             onPressed: () => Navigator.of(context).pop(),
           )
         ],
@@ -55,7 +55,7 @@ class _PharmacyChatState extends State<PharmacyChat> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('채팅'),
+        title: const Text('채팅', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),),
         backgroundColor: AppColors.primary,
       ),
       body: Column(
@@ -66,11 +66,11 @@ class _PharmacyChatState extends State<PharmacyChat> {
             color: Colors.grey[200],
             child: Row(
               children: const [
-                Icon(Icons.account_circle, size: 40),
+                Icon(Icons.account_circle, size: 40, color:AppColors.primary,),
                 SizedBox(width: 12),
                 Text(
-                  '복용자 이름',
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  '복용자 이름' '\t' '님',
+                  style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                 ),
               ],
             ),
@@ -91,7 +91,7 @@ class _PharmacyChatState extends State<PharmacyChat> {
               ),
               child: const Text(
                 '2025-06-30\n교부번호: A123456\n해당 처방전에 대한 상담입니다.',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 17),
               ),
             ),
           ),
@@ -114,7 +114,7 @@ class _PharmacyChatState extends State<PharmacyChat> {
                     ),
                     child: Text(
                       _messages[index],
-                      style: const TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 17),
                     ),
                   ),
                 );
