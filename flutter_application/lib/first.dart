@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'First Screen',
       home: const FirstScreen(),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/signup/user': (context) => const UserSignupScreen(),
-        '/signup/pharmacy': (context) => const PharmacySignupScreen(),
-      },
+      // routes: {
+      //   '/login': (context) => const LoginScreen(),
+      //   '/signup/user': (context) => const UserSignupScreen(),
+      //   '/signup/pharmacy': (context) => const PharmacySignupScreen(),
+      // },
     );
   }
 }
@@ -47,7 +47,12 @@ class FirstScreen extends StatelessWidget {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/login');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const LoginScreen(),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
@@ -106,7 +111,12 @@ class FirstScreen extends StatelessWidget {
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.pushNamed(context, '/signup/pharmacy');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PharmacySignupScreen(),
+                          ),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.primary,
@@ -121,7 +131,12 @@ class FirstScreen extends StatelessWidget {
                     child: OutlinedButton(
                       onPressed: () {
                         Navigator.pop(context);
-                        Navigator.pushNamed(context, '/signup/user');
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const UserSignupScreen(),
+                          ),
+                        );
                       },
                       style: OutlinedButton.styleFrom(
                         foregroundColor: AppColors.primary,

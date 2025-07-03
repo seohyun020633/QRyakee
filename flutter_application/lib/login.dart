@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../constant/colors.dart';
+import 'package:flutter_application/user_bottom_nav.dart';
+import 'package:flutter_application/pharmacy_bottom_nav.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,6 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
     final pw = _pwController.text.trim();
     // 로그인 처리 로직
     print('로그인 유형: ${_isUser ? '회원' : '약국'}, ID: $id, PW: $pw');
+    if (_isUser) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => UserBottomNav()),
+    );
+  } else {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => PharmacyBottomNav()),
+    );
+  }
   }
 
   @override
