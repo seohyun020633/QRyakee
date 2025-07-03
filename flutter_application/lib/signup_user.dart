@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constant/colors.dart';
@@ -32,7 +31,8 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _residentFrontController = TextEditingController();
+  final TextEditingController _residentFrontController =
+      TextEditingController();
   final TextEditingController _residentBackController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _idController = TextEditingController();
@@ -48,7 +48,8 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
 
   void _handleSignup() {
     if (_formKey.currentState!.validate()) {
-     final residentNumber = "${_residentFrontController.text}-${_residentBackController.text}******";
+      final residentNumber =
+          "${_residentFrontController.text}-${_residentBackController.text}******";
 
       print("이름: ${_nameController.text}");
       print("주민번호: $residentNumber");
@@ -76,8 +77,15 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('사용자 회원가입'),
-        backgroundColor: AppColors.primary,
+        centerTitle: true,
+        title: const Text(
+          '사용자 회원가입',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),
@@ -173,10 +181,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                       ),
                       value: _selectedCity,
                       items: _cities.map((city) {
-                        return DropdownMenuItem(
-                          value: city,
-                          child: Text(city),
-                        );
+                        return DropdownMenuItem(value: city, child: Text(city));
                       }).toList(),
                       onChanged: (value) {
                         setState(() {
@@ -184,7 +189,8 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                           _selectedDistrict = null;
                         });
                       },
-                      validator: (value) => value == null ? '시/도를 선택하세요.' : null,
+                      validator: (value) =>
+                          value == null ? '시/도를 선택하세요.' : null,
                     ),
                   ),
                   const SizedBox(width: 16),
@@ -195,20 +201,24 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                         border: OutlineInputBorder(),
                       ),
                       value: _selectedDistrict,
-                      items: (_selectedCity != null
-                          ? cityDistrictMap[_selectedCity]!
-                          : <String>[]).map((district) {
-                        return DropdownMenuItem(
-                          value: district,
-                          child: Text(district),
-                        );
-                      }).toList(),
+                      items:
+                          (_selectedCity != null
+                                  ? cityDistrictMap[_selectedCity]!
+                                  : <String>[])
+                              .map((district) {
+                                return DropdownMenuItem(
+                                  value: district,
+                                  child: Text(district),
+                                );
+                              })
+                              .toList(),
                       onChanged: (value) {
                         setState(() {
                           _selectedDistrict = value;
                         });
                       },
-                      validator: (value) => value == null ? '구/군을 선택하세요.' : null,
+                      validator: (value) =>
+                          value == null ? '구/군을 선택하세요.' : null,
                     ),
                   ),
                 ],
@@ -217,7 +227,10 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('주기적으로 먹는 약이 있나요?', style: TextStyle(fontSize: 16)),
+                  const Text(
+                    '주기적으로 먹는 약이 있나요?',
+                    style: TextStyle(fontSize: 16),
+                  ),
                   const SizedBox(height: 8),
                   Row(
                     children: [
@@ -260,10 +273,10 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               if (_takesMedicine) const SizedBox(height: 16),
 
               const Divider(
-                  height: 32,
-                  thickness: 1,
-                  color: Colors.grey, // 원하는 색상으로 바꿀 수 있음
-                ),
+                height: 32,
+                thickness: 1,
+                color: Colors.grey, // 원하는 색상으로 바꿀 수 있음
+              ),
 
               TextFormField(
                 controller: _idController,
@@ -306,10 +319,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                     backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: const Text(
-                    '회원가입',
-                    style: TextStyle(fontSize: 16),
-                  ),
+                  child: const Text('회원가입', style: TextStyle(fontSize: 16)),
                 ),
               ),
             ],
@@ -334,7 +344,8 @@ class PhoneNumberFormatter extends TextInputFormatter {
     } else if (digits.length <= 7) {
       formatted = '${digits.substring(0, 3)}-${digits.substring(3)}';
     } else if (digits.length <= 11) {
-      formatted = '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
+      formatted =
+          '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
     } else {
       formatted =
           '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7, 11)}';
