@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
+//채팅 카메라
+
 class CameraScreen extends StatefulWidget {
   const CameraScreen({super.key});
 
