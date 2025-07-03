@@ -95,8 +95,16 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
             children: [
               TextFormField(
                 controller: _nameController,
+                cursorColor: Colors.blueGrey,
                 decoration: const InputDecoration(
                   labelText: '이름',
+                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) => value!.isEmpty ? '이름을 입력하세요.' : null,
@@ -108,6 +116,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                     flex: 3,
                     child: TextFormField(
                       controller: _residentFrontController,
+                      cursorColor: Colors.blueGrey,
                       keyboardType: TextInputType.number,
                       inputFormatters: [
                         FilteringTextInputFormatter.digitsOnly,
@@ -115,6 +124,16 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                       ],
                       decoration: const InputDecoration(
                         labelText: '주민번호 앞자리',
+                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
                         hintText: '예: 900101',
                         border: OutlineInputBorder(),
                       ),
@@ -130,6 +149,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                     flex: 1,
                     child: TextFormField(
                       controller: _residentBackController,
+                      cursorColor: Colors.blueGrey,
                       keyboardType: TextInputType.number,
                       obscureText: false,
                       inputFormatters: [
@@ -138,6 +158,16 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                       ],
                       decoration: const InputDecoration(
                         labelText: '뒷자리 첫 숫자',
+                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
                         border: OutlineInputBorder(),
                       ),
                       validator: (value) =>
@@ -151,6 +181,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _phoneController,
+                cursorColor: Colors.blueGrey,
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
@@ -159,6 +190,13 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 ],
                 decoration: const InputDecoration(
                   labelText: '연락처',
+                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                   hintText: '000-0000-0000',
                   border: OutlineInputBorder(),
                 ),
@@ -177,6 +215,16 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                     child: DropdownButtonFormField<String>(
                       decoration: const InputDecoration(
                         labelText: '시/도',
+                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
                         border: OutlineInputBorder(),
                       ),
                       value: _selectedCity,
@@ -198,6 +246,16 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                     child: DropdownButtonFormField<String>(
                       decoration: const InputDecoration(
                         labelText: '구/군',
+                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(
+                            color: AppColors.primary,
+                            width: 2,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey),
+                        ),
                         border: OutlineInputBorder(),
                       ),
                       value: _selectedDistrict,
@@ -237,6 +295,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                       Radio<bool>(
                         value: true,
                         groupValue: _takesMedicine,
+                        activeColor: AppColors.primary,
                         onChanged: (value) {
                           setState(() {
                             _takesMedicine = value!;
@@ -248,6 +307,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                       Radio<bool>(
                         value: false,
                         groupValue: _takesMedicine,
+                        activeColor: AppColors.primary,
                         onChanged: (value) {
                           setState(() {
                             _takesMedicine = value!;
@@ -263,8 +323,19 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               if (_takesMedicine)
                 TextFormField(
                   controller: _medicineController,
+                  cursorColor: Colors.blueGrey,
                   decoration: const InputDecoration(
                     labelText: '복용 중인 약 이름',
+                    floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: AppColors.primary,
+                        width: 2,
+                      ),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey),
+                    ),
                     border: OutlineInputBorder(),
                   ),
                   validator: (value) =>
@@ -280,8 +351,16 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
 
               TextFormField(
                 controller: _idController,
+                cursorColor: Colors.blueGrey,
                 decoration: const InputDecoration(
                   labelText: '아이디',
+                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) => value!.isEmpty ? '아이디를 입력하세요.' : null,
@@ -289,9 +368,17 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _pwController,
+                cursorColor: Colors.blueGrey,
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: '비밀번호',
+                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) => value!.isEmpty ? '비밀번호를 입력하세요.' : null,
@@ -299,9 +386,17 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               const SizedBox(height: 16),
               TextFormField(
                 controller: _pwConfirmController,
+                cursorColor: Colors.blueGrey,
                 obscureText: true,
                 decoration: const InputDecoration(
                   labelText: '비밀번호 재입력',
+                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
                   border: OutlineInputBorder(),
                 ),
                 validator: (value) {
@@ -319,7 +414,10 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                     backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: const Text('회원가입', style: TextStyle(fontSize: 16)),
+                  child: const Text(
+                    '회원가입',
+                    style: TextStyle(fontSize: 15, color: Colors.white),
+                  ),
                 ),
               ),
             ],

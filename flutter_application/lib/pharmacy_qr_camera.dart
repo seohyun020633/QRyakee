@@ -11,9 +11,10 @@ class QRScanner extends StatelessWidget {
       appBar: AppBar(
         title: const Text(
           'QR 인식',
-          style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: AppColors.primary),
         ),
-        backgroundColor: AppColors.primary,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: MobileScanner(
         controller: MobileScannerController(),

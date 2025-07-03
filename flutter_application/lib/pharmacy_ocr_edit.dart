@@ -100,7 +100,18 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('OCR 결과 확인', style:TextStyle(fontSize: 21,fontWeight: FontWeight.bold),),backgroundColor: AppColors.primary,),
+      appBar: AppBar(
+        title: const Text(
+          'OCR 결과 확인',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -120,7 +131,14 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
             Center(
               child: ElevatedButton(
                 onPressed: () => _showSaveDialog(context),
-                child: const Text('저장하기',style:TextStyle(fontSize: 15,color: Colors.black),),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text(
+                  '저장하기',
+                  style: TextStyle(fontSize: 15),
+                ),
               ),
             ),
           ],
@@ -130,36 +148,34 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
   }
 
   void _showSaveDialog(BuildContext context) {
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('PDF 저장'),
-      content: const Text('PDF 파일을 저장하시겠습니까?'),
-      actions: [
-        TextButton(
-          onPressed: () async {
-            Navigator.of(context).pop();
-            // await _saveAsPdf(); // PDF 저장
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (_) => PharmacyBottomNav()),
-            );
-          },
-          style: TextButton.styleFrom(
-            foregroundColor: Colors.white,
-            backgroundColor: AppColors.primary,
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('PDF 저장'),
+        content: const Text('PDF 파일을 저장하시겠습니까?'),
+        actions: [
+          TextButton(
+            onPressed: () async {
+              Navigator.of(context).pop();
+              // await _saveAsPdf(); // PDF 저장
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (_) => PharmacyBottomNav()),
+              );
+            },
+            style: TextButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: AppColors.primary,
+            ),
+            child: const Text('저장'),
           ),
-          child: const Text('저장'),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          style: TextButton.styleFrom(
-            foregroundColor: AppColors.primary,
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            style: TextButton.styleFrom(foregroundColor: AppColors.primary),
+            child: const Text('취소'),
           ),
-          child: const Text('취소'),
-        ),
-      ],
-    ),
-  );
-}
+        ],
+      ),
+    );
+  }
 }

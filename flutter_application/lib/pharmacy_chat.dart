@@ -151,10 +151,20 @@ class _PharmacyChatState extends State<PharmacyChat> {
                 Expanded(
                   child: TextField(
                     controller: _controller,
+                    cursorColor: AppColors.blueGray,
                     decoration: const InputDecoration(
                       hintText: '메시지를 입력하세요',
                       border: OutlineInputBorder(),
                       contentPadding: EdgeInsets.symmetric(horizontal: 12),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: AppColors.primary,
+                          width: 2,
+                        ),
+                      ),
                     ),
                   ),
                 ),

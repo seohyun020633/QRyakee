@@ -208,7 +208,7 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                     backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: const Text('회원가입', style: TextStyle(fontSize: 16)),
+                  child: const Text('회원가입', style: TextStyle(fontSize: 15, color: Colors.white)),
                 ),
               ),
             ],
