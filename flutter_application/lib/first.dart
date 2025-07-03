@@ -37,10 +37,11 @@ class FirstScreen extends StatelessWidget {
         child: Column(
           children: [
             const Spacer(),
-            const Icon(
-              Icons.local_hospital,
-              size: 100,
-              color: AppColors.primary,
+            Image.asset(
+              'assets/images/icon.png',
+              width: 100,
+              height: 100,
+              fit: BoxFit.contain,
             ),
             const Spacer(),
             Padding(
