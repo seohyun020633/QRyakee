@@ -64,8 +64,15 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('약국 회원가입'),
-        backgroundColor: AppColors.primary,
+        centerTitle: true,
+        title: const Text(
+          '약국 회원가입',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(32.0),
@@ -79,8 +86,7 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                   labelText: '약국 이름',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value!.isEmpty ? '약국 이름을 입력하세요.' : null,
+                validator: (value) => value!.isEmpty ? '약국 이름을 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -115,10 +121,12 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                         border: OutlineInputBorder(),
                       ),
                       items: _cities
-                          .map((city) => DropdownMenuItem(
-                                value: city,
-                                child: Text(city),
-                              ))
+                          .map(
+                            (city) => DropdownMenuItem(
+                              value: city,
+                              child: Text(city),
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) {
                         setState(() {
@@ -139,10 +147,12 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                         border: OutlineInputBorder(),
                       ),
                       items: (cityDistrictMap[_selectedCity] ?? [])
-                          .map((district) => DropdownMenuItem(
-                                value: district,
-                                child: Text(district),
-                              ))
+                          .map(
+                            (district) => DropdownMenuItem(
+                              value: district,
+                              child: Text(district),
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) {
                         setState(() {
@@ -163,8 +173,7 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                   labelText: '아이디',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value!.isEmpty ? '아이디를 입력하세요.' : null,
+                validator: (value) => value!.isEmpty ? '아이디를 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -174,8 +183,7 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                   labelText: '비밀번호',
                   border: OutlineInputBorder(),
                 ),
-                validator: (value) =>
-                    value!.isEmpty ? '비밀번호를 입력하세요.' : null,
+                validator: (value) => value!.isEmpty ? '비밀번호를 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -200,10 +208,7 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                     backgroundColor: AppColors.primary,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                   ),
-                  child: const Text(
-                    '회원가입',
-                    style: TextStyle(fontSize: 16),
-                  ),
+                  child: const Text('회원가입', style: TextStyle(fontSize: 16)),
                 ),
               ),
             ],
@@ -228,7 +233,8 @@ class PhoneNumberFormatter extends TextInputFormatter {
     } else if (digits.length <= 7) {
       formatted = '${digits.substring(0, 3)}-${digits.substring(3)}';
     } else if (digits.length <= 11) {
-      formatted = '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
+      formatted =
+          '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
     } else {
       formatted =
           '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7, 11)}';

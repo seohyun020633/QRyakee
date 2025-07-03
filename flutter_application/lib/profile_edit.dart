@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart'; // ← 이거 추가 필수
+import 'package:flutter/services.dart';
 import '../constant/colors.dart';
 
 class ProfileEditScreen extends StatefulWidget {
@@ -63,8 +63,15 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('프로필 수정'),
-        backgroundColor: AppColors.primary,
+        centerTitle: true,
+        title: const Text(
+          '프로필 수정',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -101,18 +108,23 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
               ),
             ),
             const SizedBox(height: 24),
-            const Text('주기적으로 먹는 약', style: TextStyle(fontWeight: FontWeight.bold)),
+            const Text(
+              '주기적으로 먹는 약',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
             const SizedBox(height: 8),
-            ..._medicineControllers.map((controller) => Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: TextField(
-                controller: controller,
-                decoration: const InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '약 이름',
+            ..._medicineControllers.map(
+              (controller) => Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4.0),
+                child: TextField(
+                  controller: controller,
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    hintText: '약 이름',
+                  ),
                 ),
               ),
-            )),
+            ),
             TextButton.icon(
               onPressed: _addMedicineField,
               icon: const Icon(Icons.add),
@@ -140,7 +152,10 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
 // 연락처 자동 하이픈 입력 포매터
 class _PhoneNumberFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+  TextEditingValue formatEditUpdate(
+    TextEditingValue oldValue,
+    TextEditingValue newValue,
+  ) {
     final digits = newValue.text.replaceAll(RegExp(r'[^\d]'), '');
     String formatted = '';
 
@@ -149,9 +164,11 @@ class _PhoneNumberFormatter extends TextInputFormatter {
     } else if (digits.length <= 7) {
       formatted = '${digits.substring(0, 3)}-${digits.substring(3)}';
     } else if (digits.length <= 11) {
-      formatted = '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
+      formatted =
+          '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7)}';
     } else {
-      formatted = '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7, 11)}';
+      formatted =
+          '${digits.substring(0, 3)}-${digits.substring(3, 7)}-${digits.substring(7, 11)}';
     }
 
     return TextEditingValue(

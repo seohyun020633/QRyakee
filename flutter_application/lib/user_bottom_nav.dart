@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/profile_user.dart';
 import 'package:flutter_application/user_home.dart';
-import 'package:flutter_application/naver_map_screen.dart';  
+import 'package:flutter_application/naver_map_screen.dart';
 import 'package:flutter_application/constant/colors.dart';
 
 //일반 사용자 하단바
@@ -16,7 +17,7 @@ class _UserBottomNavState extends State<UserBottomNav> {
     UserHome(),
     NaverMapScreen(),
     Center(child: Text('이력 화면')),
-    Center(child: Text('마이페이지 화면')),
+    ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {

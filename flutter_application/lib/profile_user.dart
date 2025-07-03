@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../constant/colors.dart';
-import 'edit_profile.dart';
+import 'profile_edit.dart';
 
 void main() {
   runApp(const MyApp());
@@ -30,9 +30,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   File? _image;
   final picker = ImagePicker();
 
-  final TextEditingController _nameController = TextEditingController(text: '홍길동');
-  final TextEditingController _residentController = TextEditingController(text: '900101-1');
-  final TextEditingController _phoneController = TextEditingController(text: '010-1234-5678');
+  final TextEditingController _nameController = TextEditingController(
+    text: '홍길동',
+  );
+  final TextEditingController _residentController = TextEditingController(
+    text: '900101-1',
+  );
+  final TextEditingController _phoneController = TextEditingController(
+    text: '010-1234-5678',
+  );
 
   List<String> _medicines = ['혈압약']; // ✅ 여러 개의 약 이름 저장
 
@@ -75,8 +81,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('내 프로필'),
-        backgroundColor: AppColors.primary,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text(
+          '내 프로필',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -90,7 +104,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     backgroundImage: _image != null ? FileImage(_image!) : null,
                     backgroundColor: Colors.grey[300],
                     child: _image == null
-                        ? const Icon(Icons.person, size: 50, color: Colors.white)
+                        ? const Icon(
+                            Icons.person,
+                            size: 50,
+                            color: Colors.white,
+                          )
                         : null,
                   ),
                   Positioned(
@@ -101,7 +119,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       child: const CircleAvatar(
                         radius: 16,
                         backgroundColor: Colors.white,
-                        child: Icon(Icons.camera_alt, size: 18, color: Colors.black),
+                        child: Icon(
+                          Icons.camera_alt,
+                          size: 18,
+                          color: Colors.black,
+                        ),
                       ),
                     ),
                   ),
@@ -110,7 +132,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             const SizedBox(height: 24),
             buildInfoRow('이름', _nameController.text),
-            buildInfoRow('주민번호', _formatResidentNumber(_residentController.text)),
+            buildInfoRow(
+              '주민번호',
+              _formatResidentNumber(_residentController.text),
+            ),
             buildInfoList('주기적으로 먹는 약', _medicines),
             buildInfoRow('연락처', _phoneController.text),
             const SizedBox(height: 16),
@@ -129,7 +154,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               alignment: Alignment.centerLeft,
               child: Text(
                 '자주 간 약국',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
               ),
             ),
             const SizedBox(height: 8),
@@ -165,13 +190,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 120,
+            width: 190,
             child: Text(
               '$label:',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
             ),
           ),
-          Expanded(child: Text(value)),
+          Expanded(child: Text(value, style: const TextStyle(fontSize: 17))),
         ],
       ),
     );
@@ -184,16 +209,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            width: 120,
+            width: 190,
             child: Text(
               '$label:',
-              style: const TextStyle(fontWeight: FontWeight.bold),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
             ),
           ),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: values.map((v) => Text(v)).toList(),
+              children: values
+                  .map((v) => Text(v, style: const TextStyle(fontSize: 17)))
+                  .toList(),
             ),
           ),
         ],

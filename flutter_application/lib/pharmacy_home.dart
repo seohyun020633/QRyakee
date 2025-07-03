@@ -11,19 +11,19 @@ class PharmacyHome extends StatelessWidget {
       "patientName": "홍길동",
       "rrn": "9001011",
       "date": "2025-06-30",
-      "number": "A123456"
+      "number": "A123456",
     },
     {
       "patientName": "김민지",
       "rrn": "9802022",
       "date": "2025-06-29",
-      "number": "B234567"
+      "number": "B234567",
     },
     {
       "patientName": "이철수",
       "rrn": "0101013",
       "date": "2025-06-28",
-      "number": "C345678"
+      "number": "C345678",
     },
   ];
 
@@ -31,31 +31,35 @@ class PharmacyHome extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("홈화면", style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),),
-        backgroundColor: AppColors.primary,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text(
+          '큐알약이',
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 21,
+            color: AppColors.primary,
+          ),
+        ),
         actions: [
           IconButton(
-          icon: const Icon(Icons.notifications),
-          onPressed: () {
-            Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => PharmacyNotificationPage(),
+            icon: const Icon(Icons.notifications_none, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => PharmacyNotificationPage()),
+              );
+            },
+          ),
+        ],
       ),
-    );
-          },
-        ),
-      ],
-      ),
+
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '약국메인',
-              style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),
-            ),
+            const Text('약국이름', style: TextStyle(fontSize: 19)),
             const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
@@ -75,15 +79,31 @@ class PharmacyHome extends StatelessWidget {
                         children: [
                           Row(
                             children: [
-                              Expanded(child: Text('환자이름: ${item["patientName"]}', style: TextStyle(fontSize: 17),)),
-                              Text('주민번호: ${item["rrn"]}', style: TextStyle(fontSize: 17)),
+                              Expanded(
+                                child: Text(
+                                  '환자이름: ${item["patientName"]}',
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                              Text(
+                                '주민번호: ${item["rrn"]}',
+                                style: TextStyle(fontSize: 17),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 8),
                           Row(
                             children: [
-                              Expanded(child: Text('교부일자: ${item["date"]}', style: TextStyle(fontSize: 17))),
-                              Text('교부번호: ${item["number"]}', style: TextStyle(fontSize: 17)),
+                              Expanded(
+                                child: Text(
+                                  '교부일자: ${item["date"]}',
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                              ),
+                              Text(
+                                '교부번호: ${item["number"]}',
+                                style: TextStyle(fontSize: 17),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 12),
@@ -93,25 +113,33 @@ class PharmacyHome extends StatelessWidget {
                               onPressed: () {
                                 Navigator.push(
                                   context,
-                                  MaterialPageRoute(builder: (context) => PharmacyPrescriptionPage(
-                                      patientName: item["patientName"]!,
-                                      rrn: item["rrn"]!,
-                                      date: item["date"]!,
-                                      number: item["number"]!,
-                                    ),
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        PharmacyPrescriptionPage(
+                                          patientName: item["patientName"]!,
+                                          rrn: item["rrn"]!,
+                                          date: item["date"]!,
+                                          number: item["number"]!,
+                                        ),
                                   ),
                                 );
                               },
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10), 
+                                  borderRadius: BorderRadius.circular(10),
                                   side: const BorderSide(
                                     color: AppColors.primary,
                                     width: 2,
                                   ),
                                 ),
                               ),
-                              child: const Text('처방전 확인하기',style: TextStyle(color: Colors.black,fontSize: 15),),
+                              child: const Text(
+                                '처방전 확인하기',
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ),
+                              ),
                             ),
                           ),
                         ],
