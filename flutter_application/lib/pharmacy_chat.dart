@@ -10,7 +10,6 @@ class PharmacyChat extends StatefulWidget {
 }
 
 class _PharmacyChatState extends State<PharmacyChat> {
-
   final TextEditingController _controller = TextEditingController();
   final List<String> _messages = [];
 
@@ -18,12 +17,12 @@ class _PharmacyChatState extends State<PharmacyChat> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('처방전 상세 정보',style: TextStyle(fontSize: 20),),
+        title: const Text('처방전 상세 정보', style: TextStyle(fontSize: 20)),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('환자 이름:', style: TextStyle(fontSize: 17),),
+            Text('환자 이름:', style: TextStyle(fontSize: 17)),
             Text('주민번호:7자리', style: TextStyle(fontSize: 17)),
             Text('교부일자:', style: TextStyle(fontSize: 17)),
             Text('교부번호:', style: TextStyle(fontSize: 17)),
@@ -32,9 +31,12 @@ class _PharmacyChatState extends State<PharmacyChat> {
         ),
         actions: [
           TextButton(
-            child: const Text('닫기', style: TextStyle(fontSize: 15, color: Colors.black)),
+            child: const Text(
+              '닫기',
+              style: TextStyle(fontSize: 15, color: Colors.black),
+            ),
             onPressed: () => Navigator.of(context).pop(),
-          )
+          ),
         ],
       ),
     );
@@ -52,24 +54,32 @@ class _PharmacyChatState extends State<PharmacyChat> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
-        title: const Text('채팅', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),),
-        backgroundColor: AppColors.primary,
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text(
+          '채팅',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
       ),
       body: Column(
         children: [
           // 사용자에게 전달 받음
           Container(
             padding: const EdgeInsets.all(16),
-            color: Colors.grey[200],
             child: Row(
               children: const [
-                Icon(Icons.account_circle, size: 40, color:AppColors.primary,),
+                Icon(Icons.account_circle, size: 40, color: AppColors.primary),
                 SizedBox(width: 12),
                 Text(
-                  '복용자 이름' '\t' '님',
+                  '복용자 이름'
+                  '\t'
+                  '님',
                   style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -95,7 +105,7 @@ class _PharmacyChatState extends State<PharmacyChat> {
               ),
             ),
           ),
-          
+
           const Divider(height: 1),
           // 메시지 리스트
           Expanded(
@@ -130,12 +140,12 @@ class _PharmacyChatState extends State<PharmacyChat> {
               children: [
                 IconButton(
                   icon: const Icon(Icons.camera_alt),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (_) => const CameraScreen()),
-                      );
-                    },
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => const CameraScreen()),
+                    );
+                  },
                 ),
 
                 Expanded(

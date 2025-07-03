@@ -12,8 +12,15 @@ class PharmacyNotificationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('알림',style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),),
-        backgroundColor: AppColors.primary,
+        centerTitle: true,
+        title: const Text(
+          '알림',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
       ),
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
@@ -21,9 +28,9 @@ class PharmacyNotificationPage extends StatelessWidget {
         itemBuilder: (context, index) {
           return GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('알림 ${index + 1} 클릭됨')),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('알림 ${index + 1} 클릭됨')));
             },
             child: Card(
               shape: RoundedRectangleBorder(

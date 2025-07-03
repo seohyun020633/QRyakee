@@ -59,7 +59,7 @@ class PharmacyHome extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('약국이름', style: TextStyle(fontSize: 19)),
+            const Text('약국이름', style: TextStyle(fontSize: 17)),
             const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
