@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'First Screen',
       home: const FirstScreen(),
-      routes: {
-        '/login': (context) => const LoginScreen(),
-        '/signup/user': (context) => const UserSignupScreen(),
-        '/signup/pharmacy': (context) => const PharmacySignupScreen(),
-      },
+      // routes: {
+      //   '/login': (context) => const LoginScreen(),
+      //   '/signup/user': (context) => const UserSignupScreen(),
+      //   '/signup/pharmacy': (context) => const PharmacySignupScreen(),
+      // },
     );
   }
 }
