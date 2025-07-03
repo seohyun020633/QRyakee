@@ -37,7 +37,11 @@ class FirstScreen extends StatelessWidget {
         child: Column(
           children: [
             const Spacer(),
-            const Icon(Icons.local_hospital, size: 100, color: AppColors.primary),
+            const Icon(
+              Icons.local_hospital,
+              size: 100,
+              color: AppColors.primary,
+            ),
             const Spacer(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32.0),
@@ -63,7 +67,7 @@ class FirstScreen extends StatelessWidget {
                       ),
                       child: const Text(
                         '기존 회원이신가요?',
-                        style: TextStyle(fontSize: 16),
+                        style: TextStyle(fontSize: 17, color: Colors.white),
                       ),
                     ),
                   ),
@@ -75,7 +79,7 @@ class FirstScreen extends StatelessWidget {
                     child: const Text(
                       '회원가입하러 가기',
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 15,
                         color: Colors.black87,
                         decoration: TextDecoration.underline,
                       ),
@@ -103,7 +107,10 @@ class FirstScreen extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Text('회원가입 유형을 선택하세요', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              const Text(
+                '회원가입 유형을 선택하세요',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 16),
               Row(
                 children: [

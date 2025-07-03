@@ -9,27 +9,42 @@ class PharmacyQRCameraPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('기능 선택', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold),),backgroundColor: AppColors.primary,),
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        centerTitle: true,
+        title: const Text(
+          '카메라 선택',
+          style: TextStyle(
+            fontSize: 21,
+            fontWeight: FontWeight.bold,
+            color: AppColors.primary,
+          ),
+        ),
+      ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ElevatedButton.icon(
-              icon: const Icon(Icons.qr_code,color: AppColors.primary,),
-              label: const Text('QR 인식',style: TextStyle(color: Colors.black,fontSize: 17),),
+              icon: const Icon(Icons.qr_code, color: AppColors.primary),
+              label: const Text(
+                'QR 인식',
+                style: TextStyle(color: Colors.black, fontSize: 17),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (_) => const QRScanner(),
-                  ),
+                  MaterialPageRoute(builder: (_) => const QRScanner()),
                 );
               },
             ),
             const SizedBox(height: 20),
             ElevatedButton.icon(
-              icon: const Icon(Icons.camera_alt, color: AppColors.primary,),
-              label: const Text('OCR 촬영',style: TextStyle(color: Colors.black, fontSize: 17),),
+              icon: const Icon(Icons.camera_alt, color: AppColors.primary),
+              label: const Text(
+                'OCR 촬영',
+                style: TextStyle(color: Colors.black, fontSize: 17),
+              ),
               onPressed: () {
                 Navigator.push(
                   context,
