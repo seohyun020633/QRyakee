@@ -68,7 +68,11 @@ class FirstScreen extends StatelessWidget {
                       ),
                       child: const Text(
                         '기존 회원이신가요?',
-                        style: TextStyle(fontSize: 17, color: Colors.white),
+                        style: TextStyle(
+                          fontSize: 17,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
