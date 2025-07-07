@@ -3,11 +3,10 @@ import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import '../constant/colors.dart';
 
-// 더미 수정 화면들
 import 'name_edit.dart';
 import 'resident_edit.dart';
 import 'phone_edit.dart';
-import 'medicine_edit.dart';
+// import 'medicine_edit.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -169,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             width: double.infinity,
             height: 10,
-            color: AppColors.light,
+            color: AppColors.lighgrey,
           ),
 
           // ✅ 자주 간 약국 타이틀
