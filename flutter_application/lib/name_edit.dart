@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application/constant/colors.dart';
 
 final FocusNode _focusNode = FocusNode();
@@ -107,7 +108,7 @@ class _NameEditScreenState extends State<NameEditScreen>
           // 키보드 위 버튼
           if (_keyboardHeight > 0)
             Positioned(
-              bottom: _keyboardHeight + 1, // 10픽셀 띄워서 좀 더 높게
+              bottom: _keyboardHeight,
               left: 0,
               right: 0,
               child: ElevatedButton(
