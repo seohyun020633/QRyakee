@@ -157,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   (item) => buildInfoTile(
                     item['label'] as String,
                     item['value'] as String,
-                    item['onTap'] as VoidCallback,
+                    item['onTap'] as VoidCallback? ?? () {},
                   ),
                 ),
               ],
