@@ -36,16 +36,20 @@ class _PharmacySearchPageState extends State<PharmacySearchPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
          elevation: 0,
+         centerTitle: true,
+         automaticallyImplyLeading: false,
         title: const Text('약품 검색', style: TextStyle(fontSize: 21,
-         fontWeight: FontWeight.bold, color: AppColors.primary),),         
+         fontWeight: FontWeight.bold, color: AppColors.primary),),      
       ),
       body: Column(
         children: [
+          Padding(padding: const EdgeInsets.fromLTRB(0, 10, 0, 0)),
           Padding(
-            padding: const EdgeInsets.all(12),
+            padding: const EdgeInsets.all(10),
             child: TextField(
               controller: _searchController,
               onChanged: _filterSearch,
+              cursorColor: AppColors.sub,
               decoration: InputDecoration(
                 hintText: '검색어를 입력하세요',
                 focusedBorder: OutlineInputBorder(
@@ -54,7 +58,7 @@ class _PharmacySearchPageState extends State<PharmacySearchPage> {
                 enabledBorder: OutlineInputBorder(
                 borderSide: BorderSide(color: Colors.grey),
                 ),
-                prefixIcon: const Icon(Icons.search, color: AppColors.primary,),
+                prefixIcon: const Icon(Icons.search, color: Colors.grey,),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                 ),
