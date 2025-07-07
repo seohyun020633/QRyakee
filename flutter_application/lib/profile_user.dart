@@ -168,7 +168,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Container(
             width: double.infinity,
             height: 10,
-            color: AppColors.lighgrey,
+            color: AppColors.lightgrey,
           ),
 
           // ✅ 자주 간 약국 타이틀
