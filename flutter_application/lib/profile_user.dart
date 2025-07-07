@@ -6,8 +6,8 @@ import '../constant/colors.dart';
 // 더미 수정 화면들
 import 'name_edit.dart';
 import 'resident_edit.dart';
-// import 'phone_edit.dart';
-// import 'medicine_edit.dart';
+import 'phone_edit.dart';
+import 'medicine_edit.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -22,12 +22,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String name = '홍길동';
   String resident = '900101-1';
-  String phone = '010-1234-5678';
-  List<String> _medicines = ['혈압약'];
+  String phone = '01012345678';
+  List<String> _medicines = [];
 
   String _formatResidentNumber(String raw) {
     if (raw.length < 8) return raw;
     return '${raw.substring(0, 8)}●●●●●●';
+  }
+
+  String _formatPhoneNumber(String raw) {
+    if (raw.length == 11) {
+      return '${raw.substring(0, 3)}-${raw.substring(3, 7)}-${raw.substring(7)}';
+    } else if (raw.length == 10) {
+      return '${raw.substring(0, 3)}-${raw.substring(3, 6)}-${raw.substring(6)}';
+    }
+    return raw;
   }
 
   Future<void> _getImage() async {
@@ -62,22 +71,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
         'value': _formatResidentNumber(resident),
         'onTap': () => showResidentPopup(context),
       },
-      // {
-      //   'label': '연락처',
-      //   'value': phone,
-      //   'onTap': () => Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (_) => const PhoneEditScreen()),
-      //   ),
-      // },
-      // {
-      //   'label': '주기적으로 먹는 약',
-      //   'value': _medicines.join(', '),
-      //   'onTap': () => Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (_) => const MedicineEditScreen()),
-      //   ),
-      // },
+      {
+        'label': '연락처',
+        'value': _formatPhoneNumber(phone),
+        'onTap': () async {
+          final result = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => PhoneEditScreen(initialPhone: phone),
+            ),
+          );
+          if (result != null && result is String && mounted) {
+            setState(() {
+              phone = result;
+            });
+          }
+        },
+      },
+      {
+        'label': '주기적으로 먹는 약',
+        'value': _medicines.isEmpty ? '없음' : _medicines.join(', '),
+        // 'onTap':
+      },
     ];
 
     return Scaffold(
@@ -216,8 +231,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  width: 100,
+                IntrinsicWidth(
                   child: Text(label, style: const TextStyle(fontSize: 19)),
                 ),
                 Expanded(
