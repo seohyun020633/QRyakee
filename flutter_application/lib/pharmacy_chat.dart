@@ -17,7 +17,7 @@ class _PharmacyChatState extends State<PharmacyChat> {
     showDialog(
       context: context,
       builder: (_) => AlertDialog(
-        title: const Text('처방전 상세 정보', style: TextStyle(fontSize: 20)),
+        title: const Text('처방전 상세 정보', style: TextStyle(fontSize: 19,color: AppColors.primary, fontWeight: FontWeight.bold)),
         content: const Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,8 +69,11 @@ class _PharmacyChatState extends State<PharmacyChat> {
       ),
       body: Column(
         children: [
+          Padding(padding: const EdgeInsets.fromLTRB(0, 10, 0, 0)),
+          const Divider(height: 1),
           // 사용자에게 전달 받음
           Container(
+            color: Colors.grey[100],
             padding: const EdgeInsets.all(16),
             child: Row(
               children: const [
@@ -132,6 +135,7 @@ class _PharmacyChatState extends State<PharmacyChat> {
             ),
           ),
 
+          const Divider(height: 1),
           // 채팅 입력 바
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 12),

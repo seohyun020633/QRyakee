@@ -4,6 +4,7 @@ import 'package:flutter_application/constant/colors.dart';
 import 'package:flutter_application/pharmacy_chat.dart';
 import 'package:flutter_application/pharmacy_prescription.dart';
 import 'package:flutter_application/pharmacy_notification.dart';
+import 'package:path/path.dart';
 
 class PharmacyHome extends StatelessWidget {
   final List<Map<String, String>> prescriptions = [
@@ -59,7 +60,7 @@ class PharmacyHome extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('약국이름', style: TextStyle(fontSize: 17)),
+            const Text('약국이름', style: TextStyle(fontSize: 19, fontWeight: FontWeight.bold)),
             const SizedBox(height: 16),
             Expanded(
               child: ListView.builder(
@@ -125,18 +126,16 @@ class PharmacyHome extends StatelessWidget {
                                 );
                               },
                               style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                  side: const BorderSide(
-                                    color: AppColors.primary,
-                                    width: 2,
-                                  ),
+                                  borderRadius: BorderRadius.circular(50),
                                 ),
                               ),
                               child: const Text(
                                 '처방전 확인하기',
                                 style: TextStyle(
-                                  color: Colors.black,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
                                   fontSize: 15,
                                 ),
                               ),

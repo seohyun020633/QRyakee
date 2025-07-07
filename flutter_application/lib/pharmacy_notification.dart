@@ -25,12 +25,9 @@ class PharmacyNotificationPage extends StatelessWidget {
       body: ListView.builder(
         padding: const EdgeInsets.all(16),
         itemCount: notifications.length,
-        itemBuilder: (context, index) {
+        itemBuilder: (context, index) {          
           return GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text('알림 ${index + 1} 클릭됨')));
             },
             child: Card(
               shape: RoundedRectangleBorder(

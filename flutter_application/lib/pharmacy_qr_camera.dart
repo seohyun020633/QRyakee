@@ -9,6 +9,7 @@ class QRScanner extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'QR 인식',
           style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: AppColors.primary),

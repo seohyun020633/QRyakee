@@ -87,7 +87,15 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
           const SizedBox(height: 4),
           TextField(
             controller: controller,
+            cursorColor: AppColors.sub,
             decoration: const InputDecoration(
+              floatingLabelStyle: TextStyle(color: AppColors.sub),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: AppColors.primary, width: 2),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
               border: OutlineInputBorder(),
               contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             ),
@@ -101,6 +109,7 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: const Text(
           'OCR 결과 확인',
           style: TextStyle(
@@ -117,7 +126,11 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.file(widget.image, height: 200),
+            Padding(padding: const EdgeInsets.fromLTRB(0, 10, 0, 0)),
+            GestureDetector(onTap: () => _showFullImageDialog(context),
+            child: Image.file(widget.image, height: 150),
+            ),
+
             const SizedBox(height: 16),
             _buildField('환자명', _patientNameController),
             _buildField('교부번호', _prescriptionNumberController),
@@ -147,6 +160,17 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
     );
   }
 
+  void _showFullImageDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (_) => Dialog(
+      child: InteractiveViewer(
+        child: Image.file(widget.image),
+      ),
+    ),
+  );
+}
+
   void _showSaveDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -157,7 +181,7 @@ class _PharmacyOCREditPageState extends State<PharmacyOCREditPage> {
           TextButton(
             onPressed: () async {
               Navigator.of(context).pop();
-              // await _saveAsPdf(); // PDF 저장
+              // await _saveAsPdf(); // pdf저장
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(builder: (_) => PharmacyBottomNav()),
