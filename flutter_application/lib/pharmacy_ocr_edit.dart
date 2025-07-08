@@ -6,6 +6,8 @@ import 'package:path/path.dart';
 import 'package:flutter_application/pharmacy_bottom_nav.dart';
 // import 'package:flutter_application/pdf_save.dart';
 
+
+
 class PharmacyOCREditPage extends StatefulWidget {
   final File image;
   final String recognizedText;

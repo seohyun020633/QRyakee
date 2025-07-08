@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constant/colors.dart';
 import 'package:flutter_application/pharmacy_search_detail.dart';
+import '../constant/input_styles.dart'; 
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'signup_pharmacy_screen',
+      home: const PharmacySearchPage(),
+    );
+  }
+}
+
+
 
 class PharmacySearchPage extends StatefulWidget {
   const PharmacySearchPage({super.key});
@@ -46,21 +66,11 @@ class _PharmacySearchPageState extends State<PharmacySearchPage> {
             child: TextField(
               controller: _searchController,
               onChanged: _filterSearch,
-              decoration: InputDecoration(
-                hintText: '검색어를 입력하세요',
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.primary, width: 2),
-                ),
-                enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-                ),
-                prefixIcon: const Icon(Icons.search, color: AppColors.primary,),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+              decoration: buildInputDecoration(hint: '검색어를 입력하세요').copyWith(
+                prefixIcon: const Icon(Icons.search, color: AppColors.primary),
               ),
             ),
-          ),
+                      ),
           Expanded(
             child: ListView.builder(
               itemCount: _filteredItems.length,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constant/colors.dart';
 import '../constant/city_map.dart';
+import '../constant/input_styles.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
 
 class PharmacySignupScreen extends StatefulWidget {
   const PharmacySignupScreen({super.key});
@@ -43,10 +45,10 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
 
   void _handleSignup() {
     if (_formKey.currentState!.validate()) {
-      print('약국 이름: \${_pharmacyNameController.text}');
-      print('연락처: \${_phoneController.text}');
-      print('주소: \$_selectedCity \$_selectedDistrict');
-      print('아이디: \${_idController.text}');
+      print('약국 이름: ${_pharmacyNameController.text}');
+      print('연락처: ${_phoneController.text}');
+      print('주소: $_selectedCity $_selectedDistrict');
+      print('아이디: ${_idController.text}');
     }
   }
 
@@ -58,6 +60,21 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
     _pwController.dispose();
     _pwConfirmController.dispose();
     super.dispose();
+  }
+
+  InputDecoration _buildInputDecoration(String label, {String? hint}) {
+    return InputDecoration(
+      labelText: label,
+      hintText: hint,
+      floatingLabelStyle: const TextStyle(color: Colors.blueGrey),
+      focusedBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: AppColors.primary, width: 2),
+      ),
+      enabledBorder: const OutlineInputBorder(
+        borderSide: BorderSide(color: Colors.grey),
+      ),
+      border: const OutlineInputBorder(),
+    );
   }
 
   @override
@@ -82,26 +99,21 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
             children: [
               TextFormField(
                 controller: _pharmacyNameController,
-                decoration: const InputDecoration(
-                  labelText: '약국 이름',
-                  border: OutlineInputBorder(),
-                ),
+                cursorColor: Colors.blueGrey,
+                decoration: buildInputDecoration(hint: '약국 이름'),
                 validator: (value) => value!.isEmpty ? '약국 이름을 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _phoneController,
+                cursorColor: Colors.blueGrey,
                 keyboardType: TextInputType.number,
                 inputFormatters: [
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(13),
                   PhoneNumberFormatter(),
                 ],
-                decoration: const InputDecoration(
-                  labelText: '연락처',
-                  hintText: '000-0000-0000',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: buildInputDecoration(hint: '000-0000-0000'),
                 validator: (value) {
                   final phoneReg = RegExp(r'^\d{3}-\d{4}-\d{4}$');
                   if (value == null || !phoneReg.hasMatch(value)) {
@@ -116,17 +128,12 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: _selectedCity,
-                      decoration: const InputDecoration(
-                        labelText: '시/도',
-                        border: OutlineInputBorder(),
-                      ),
+                      decoration: buildInputDecoration(hint: '시/도'),
                       items: _cities
-                          .map(
-                            (city) => DropdownMenuItem(
-                              value: city,
-                              child: Text(city),
-                            ),
-                          )
+                          .map((city) => DropdownMenuItem(
+                                value: city,
+                                child: Text(city),
+                              ))
                           .toList(),
                       onChanged: (value) {
                         setState(() {
@@ -142,17 +149,12 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: _selectedDistrict,
-                      decoration: const InputDecoration(
-                        labelText: '구/군',
-                        border: OutlineInputBorder(),
-                      ),
+                       decoration: buildInputDecoration(hint: '구/군'),
                       items: (cityDistrictMap[_selectedCity] ?? [])
-                          .map(
-                            (district) => DropdownMenuItem(
-                              value: district,
-                              child: Text(district),
-                            ),
-                          )
+                          .map((district) => DropdownMenuItem(
+                                value: district,
+                                child: Text(district),
+                              ))
                           .toList(),
                       onChanged: (value) {
                         setState(() {
@@ -169,30 +171,24 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
               const Divider(height: 32, thickness: 1, color: Colors.grey),
               TextFormField(
                 controller: _idController,
-                decoration: const InputDecoration(
-                  labelText: '아이디',
-                  border: OutlineInputBorder(),
-                ),
+                cursorColor: Colors.blueGrey,
+                decoration: buildInputDecoration(hint: '아이디'),
                 validator: (value) => value!.isEmpty ? '아이디를 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _pwController,
+                cursorColor: Colors.blueGrey,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: '비밀번호',
-                  border: OutlineInputBorder(),
-                ),
+                  decoration: buildInputDecoration(hint: '비밀번호'),
                 validator: (value) => value!.isEmpty ? '비밀번호를 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
               TextFormField(
                 controller: _pwConfirmController,
+                cursorColor: Colors.blueGrey,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: '비밀번호 재입력',
-                  border: OutlineInputBorder(),
-                ),
+                  decoration: buildInputDecoration(hint: '비밀번호 재입력'),
                 validator: (value) {
                   if (value!.isEmpty) return '비밀번호를 재입력하세요.';
                   if (value != _pwController.text) return '비밀번호가 일치하지 않습니다.';
@@ -218,6 +214,7 @@ class _PharmacySignupScreenState extends State<PharmacySignupScreen> {
     );
   }
 }
+
 
 class PhoneNumberFormatter extends TextInputFormatter {
   @override

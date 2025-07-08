@@ -1,6 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constant/colors.dart';
 import 'package:flutter_application/pharmacy_camera.dart';
+import '../constant/input_styles.dart';
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'signup_pharmacy_screen',
+      home: const PharmacyChat(),
+    );
+  }
+}
 
 class PharmacyChat extends StatefulWidget {
   const PharmacyChat({super.key});
@@ -152,20 +170,8 @@ class _PharmacyChatState extends State<PharmacyChat> {
                   child: TextField(
                     controller: _controller,
                     cursorColor: AppColors.blueGray,
-                    decoration: const InputDecoration(
-                      hintText: '메시지를 입력하세요',
-                      border: OutlineInputBorder(),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 12),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(
-                          color: AppColors.primary,
-                          width: 2,
-                        ),
-                      ),
-                    ),
+                    decoration: buildInputDecoration(hint: '메시지를 입력하세요'),
+
                   ),
                 ),
 

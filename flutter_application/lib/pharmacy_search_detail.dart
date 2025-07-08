@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application/constant/colors.dart';
+import '../constant/input_styles.dart';
+
+
 
 class DrugDetailPage extends StatefulWidget {
   final String selectedDrugName;
@@ -37,21 +40,14 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
             const SizedBox(height: 24),
             TextField(
               controller: _searchController,
-              decoration: InputDecoration(
-                labelText: '다른 약물 검색',
-                labelStyle: TextStyle(color: Colors.grey),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: AppColors.primary, width: 2),
-                ),
-                enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey),
-                ),
+              decoration: buildInputDecoration(hint: '다른 약물 검색').copyWith(
                 suffixIcon: IconButton(
-                  icon: Icon(Icons.search, color: AppColors.primary,),
+                  icon: const Icon(Icons.search, color: AppColors.primary),
                   onPressed: () => _searchInteraction(_searchController.text),
                 ),
               ),
             ),
+
             const SizedBox(height: 16),
             if (_interactionResult.isNotEmpty) Text(_interactionResult),
           ],

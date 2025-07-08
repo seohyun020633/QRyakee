@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constant/colors.dart';
 import '../constant/city_map.dart';
+import '../constant/input_styles.dart'; 
 
 void main() {
   runApp(const MyApp());
@@ -96,17 +97,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               TextFormField(
                 controller: _nameController,
                 cursorColor: Colors.blueGrey,
-                decoration: const InputDecoration(
-                  labelText: '이름',
-                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primary, width: 2),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: buildInputDecoration(hint: '이름'),
                 validator: (value) => value!.isEmpty ? '이름을 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
@@ -122,21 +113,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(6),
                       ],
-                      decoration: const InputDecoration(
-                        labelText: '주민번호 앞자리',
-                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        hintText: '예: 900101',
-                        border: OutlineInputBorder(),
-                      ),
+                      decoration: buildInputDecoration(hint: '예: 900101'),
                       validator: (value) =>
                           value!.length != 6 ? '앞 6자리를 입력하세요.' : null,
                     ),
@@ -156,20 +133,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(1),
                       ],
-                      decoration: const InputDecoration(
-                        labelText: '뒷자리 첫 숫자',
-                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        border: OutlineInputBorder(),
-                      ),
+                     decoration: buildInputDecoration(hint: '뒷자리 첫숫자'),
                       validator: (value) =>
                           value!.length != 1 ? '1자리를 입력하세요.' : null,
                     ),
@@ -188,18 +152,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                   LengthLimitingTextInputFormatter(13), // 최대 길이 제한
                   PhoneNumberFormatter(),
                 ],
-                decoration: const InputDecoration(
-                  labelText: '연락처',
-                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primary, width: 2),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  hintText: '000-0000-0000',
-                  border: OutlineInputBorder(),
-                ),
+                decoration: buildInputDecoration(hint: '000-0000-0000'),
                 validator: (value) {
                   final phoneReg = RegExp(r'^\\d{3}-\\d{4}-\\d{4}\$');
                   if (value == null || !phoneReg.hasMatch(value)) {
@@ -213,24 +166,14 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 children: [
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(
-                        labelText: '시/도',
-                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        border: OutlineInputBorder(),
-                      ),
                       value: _selectedCity,
-                      items: _cities.map((city) {
-                        return DropdownMenuItem(value: city, child: Text(city));
-                      }).toList(),
+                      decoration: buildInputDecoration(hint: '시/도'),
+                      items: _cities
+                          .map((city) => DropdownMenuItem(
+                                value: city,
+                                child: Text(city),
+                              ))
+                          .toList(),
                       onChanged: (value) {
                         setState(() {
                           _selectedCity = value;
@@ -244,32 +187,14 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                   const SizedBox(width: 16),
                   Expanded(
                     child: DropdownButtonFormField<String>(
-                      decoration: const InputDecoration(
-                        labelText: '구/군',
-                        floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            color: AppColors.primary,
-                            width: 2,
-                          ),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey),
-                        ),
-                        border: OutlineInputBorder(),
-                      ),
                       value: _selectedDistrict,
-                      items:
-                          (_selectedCity != null
-                                  ? cityDistrictMap[_selectedCity]!
-                                  : <String>[])
-                              .map((district) {
-                                return DropdownMenuItem(
-                                  value: district,
-                                  child: Text(district),
-                                );
-                              })
-                              .toList(),
+                       decoration: buildInputDecoration(hint: '구/군'),
+                      items: (cityDistrictMap[_selectedCity] ?? [])
+                          .map((district) => DropdownMenuItem(
+                                value: district,
+                                child: Text(district),
+                              ))
+                          .toList(),
                       onChanged: (value) {
                         setState(() {
                           _selectedDistrict = value;
@@ -324,20 +249,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 TextFormField(
                   controller: _medicineController,
                   cursorColor: Colors.blueGrey,
-                  decoration: const InputDecoration(
-                    labelText: '복용 중인 약 이름',
-                    floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(
-                        color: AppColors.primary,
-                        width: 2,
-                      ),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.grey),
-                    ),
-                    border: OutlineInputBorder(),
-                  ),
+                  decoration: buildInputDecoration(hint: '복용 중인 약 이름'),
                   validator: (value) =>
                       _takesMedicine && value!.isEmpty ? '약 이름을 입력하세요.' : null,
                 ),
@@ -352,17 +264,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               TextFormField(
                 controller: _idController,
                 cursorColor: Colors.blueGrey,
-                decoration: const InputDecoration(
-                  labelText: '아이디',
-                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primary, width: 2),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: buildInputDecoration(hint: '아이디'),
                 validator: (value) => value!.isEmpty ? '아이디를 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
@@ -370,17 +272,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 controller: _pwController,
                 cursorColor: Colors.blueGrey,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: '비밀번호',
-                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primary, width: 2),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: buildInputDecoration(hint: '비밀번호'),
                 validator: (value) => value!.isEmpty ? '비밀번호를 입력하세요.' : null,
               ),
               const SizedBox(height: 16),
@@ -388,17 +280,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 controller: _pwConfirmController,
                 cursorColor: Colors.blueGrey,
                 obscureText: true,
-                decoration: const InputDecoration(
-                  labelText: '비밀번호 재입력',
-                  floatingLabelStyle: TextStyle(color: Colors.blueGrey),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primary, width: 2),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.grey),
-                  ),
-                  border: OutlineInputBorder(),
-                ),
+                decoration: buildInputDecoration(hint: '비밀번호 재입력'),
                 validator: (value) {
                   if (value!.isEmpty) return '비밀번호를 재입력하세요.';
                   if (value != _pwController.text) return '비밀번호가 일치하지 않습니다.';
