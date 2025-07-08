@@ -19,13 +19,21 @@ class PharmacyPrescriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("처방전 상세", style: TextStyle(fontSize: 21,fontWeight: FontWeight.bold)),
-      backgroundColor: AppColors.primary,),
+      appBar: AppBar(
+        centerTitle: true,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: const Text(
+          "처방전 상세",
+          style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold, color: AppColors.primary),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(padding: const EdgeInsets.fromLTRB(0, 10, 0, 0)),
             Text('환자 이름: $patientName', style: const TextStyle(fontSize: 17)),
             const SizedBox(height: 10),
             Text('주민등록번호: $rrn', style: const TextStyle(fontSize: 17)),

@@ -28,21 +28,38 @@ class _DrugDetailPageState extends State<DrugDetailPage> {
       appBar: AppBar(
         backgroundColor: Colors.transparent,
          elevation: 0,
+         centerTitle: true,
          title: Text(widget.selectedDrugName,style: TextStyle(
-         fontSize: 21,fontWeight: FontWeight.bold,color: AppColors.primary),),),
+         fontSize: 21,fontWeight: FontWeight.bold, color: Colors.black),),),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(padding: const EdgeInsets.fromLTRB(0, 10, 0, 0)),
             Text('대표 상호작용 5가지', style: TextStyle(fontSize: 19)),
             ...['간 효소 증가', '졸림 유발', '심장 박동 증가', '혈압 상승', '위장 장애'].map((e) => Text('• $e', style: TextStyle(fontSize: 17),)),
             const SizedBox(height: 24),
             TextField(
               controller: _searchController,
+//은지 코드
               decoration: buildInputDecoration(hint: '다른 약물 검색').copyWith(
                 suffixIcon: IconButton(
                   icon: const Icon(Icons.search, color: AppColors.primary),
+//
+              cursorColor: AppColors.sub,
+              decoration: InputDecoration(
+                labelText: '다른 약물 검색',
+                labelStyle: TextStyle(color: Colors.grey),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.primary, width: 2),
+                ),
+                enabledBorder: OutlineInputBorder(
+                borderSide: BorderSide(color: Colors.grey),
+                ),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.search, color: Colors.grey,),
+//
                   onPressed: () => _searchInteraction(_searchController.text),
                 ),
               ),
