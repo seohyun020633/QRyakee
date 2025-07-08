@@ -69,10 +69,6 @@ class _PharmacySearchPageState extends State<PharmacySearchPage> {
             child: TextField(
               controller: _searchController,
               onChanged: _filterSearch,
-//은지 코드
-              decoration: buildInputDecoration(hint: '검색어를 입력하세요').copyWith(
-                prefixIcon: const Icon(Icons.search, color: AppColors.primary),
-//
               cursorColor: AppColors.sub,
               decoration: InputDecoration(
                 hintText: '검색어를 입력하세요',
