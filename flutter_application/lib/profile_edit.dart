@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constant/colors.dart';
+import '../constant/input_styles.dart';
 
 class ProfileEditScreen extends StatefulWidget {
   final String name;
@@ -32,9 +33,8 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
     _nameController = TextEditingController(text: widget.name);
     _residentController = TextEditingController(text: widget.resident);
     _phoneController = TextEditingController(text: widget.phone);
-    _medicineControllers = widget.medicines
-        .map((m) => TextEditingController(text: m))
-        .toList();
+    _medicineControllers =
+        widget.medicines.map((m) => TextEditingController(text: m)).toList();
 
     if (_medicineControllers.isEmpty) {
       _medicineControllers.add(TextEditingController());
@@ -80,8 +80,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
           children: [
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(labelText: '이름'),
+              decoration: buildInputDecoration(hint: '이름'),
             ),
+            const SizedBox(height: 16),
             TextField(
               controller: _residentController,
               keyboardType: TextInputType.number,
@@ -89,11 +90,9 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9-]')),
                 LengthLimitingTextInputFormatter(8),
               ],
-              decoration: const InputDecoration(
-                labelText: '주민번호 (앞 7자리)',
-                hintText: '예: 900101-1',
-              ),
+              decoration: buildInputDecoration(hint: '예: 900101-1'),
             ),
+            const SizedBox(height: 16),
             TextField(
               controller: _phoneController,
               keyboardType: TextInputType.phone,
@@ -102,10 +101,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 LengthLimitingTextInputFormatter(13),
                 _PhoneNumberFormatter(),
               ],
-              decoration: const InputDecoration(
-                labelText: '연락처',
-                hintText: '예: 010-1234-5678',
-              ),
+              decoration: buildInputDecoration(hint: '예: 010-1234-5678'),
             ),
             const SizedBox(height: 24),
             const Text(
@@ -118,10 +114,7 @@ class _ProfileEditScreenState extends State<ProfileEditScreen> {
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: TextField(
                   controller: controller,
-                  decoration: const InputDecoration(
-                    border: OutlineInputBorder(),
-                    hintText: '약 이름',
-                  ),
+                  decoration: buildInputDecoration(hint: '약 이름'),
                 ),
               ),
             ),
