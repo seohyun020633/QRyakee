@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../constant/colors.dart';
 import '../constant/city_map.dart';
-import '../constant/input_styles.dart'; 
+import '../constant/input_styles.dart';
+import '../services/call_api.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,17 +48,31 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
 
   final List<String> _cities = cityDistrictMap.keys.toList();
 
-  void _handleSignup() {
+  void _handleSignup() async {
     if (_formKey.currentState!.validate()) {
-      final residentNumber =
-          "${_residentFrontController.text}-${_residentBackController.text}******";
+      final data = {
+        "name": _nameController.text,
+        "resident_number":
+            "${_residentFrontController.text}-${_residentBackController.text}******",
+        "phone": _phoneController.text,
+        "city": _selectedCity,
+        "district": _selectedDistrict,
+        "takes_medicine": _takesMedicine,
+        "medicine_name": _takesMedicine ? _medicineController.text : null,
+        "username": _idController.text,
+        "password": _pwController.text,
+      };
 
-      print("이름: ${_nameController.text}");
-      print("주민번호: $residentNumber");
-      print("연락처: ${_phoneController.text}");
-      print("주소: $_selectedCity $_selectedDistrict");
-      print("약 복용 여부: ${_takesMedicine ? _medicineController.text : "없음"}");
-      print("아이디: ${_idController.text}");
+      try {
+        final response = await ApiService.userSignup(data);
+        if (response.statusCode == 200) {
+          print("회원가입 성공");
+        } else {
+          print("회원가입 실패: ${response.body}");
+        }
+      } catch (e) {
+        print("에러 발생: $e");
+      }
     }
   }
 
@@ -133,7 +148,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(1),
                       ],
-                     decoration: buildInputDecoration(hint: '뒷자리 첫숫자'),
+                      decoration: buildInputDecoration(hint: '뒷자리 첫숫자'),
                       validator: (value) =>
                           value!.length != 1 ? '1자리를 입력하세요.' : null,
                     ),
@@ -154,7 +169,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 ],
                 decoration: buildInputDecoration(hint: '000-0000-0000'),
                 validator: (value) {
-                  final phoneReg = RegExp(r'^\\d{3}-\\d{4}-\\d{4}\$');
+                  final phoneReg = RegExp(r'^\d{3}-\d{4}-\d{4}$');
                   if (value == null || !phoneReg.hasMatch(value)) {
                     return '형식: 000-0000-0000';
                   }
@@ -169,10 +184,12 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                       value: _selectedCity,
                       decoration: buildInputDecoration(hint: '시/도'),
                       items: _cities
-                          .map((city) => DropdownMenuItem(
-                                value: city,
-                                child: Text(city),
-                              ))
+                          .map(
+                            (city) => DropdownMenuItem(
+                              value: city,
+                              child: Text(city),
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) {
                         setState(() {
@@ -188,12 +205,14 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                   Expanded(
                     child: DropdownButtonFormField<String>(
                       value: _selectedDistrict,
-                       decoration: buildInputDecoration(hint: '구/군'),
+                      decoration: buildInputDecoration(hint: '구/군'),
                       items: (cityDistrictMap[_selectedCity] ?? [])
-                          .map((district) => DropdownMenuItem(
-                                value: district,
-                                child: Text(district),
-                              ))
+                          .map(
+                            (district) => DropdownMenuItem(
+                              value: district,
+                              child: Text(district),
+                            ),
+                          )
                           .toList(),
                       onChanged: (value) {
                         setState(() {
