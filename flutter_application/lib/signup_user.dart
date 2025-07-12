@@ -51,7 +51,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
   void _handleSignup() async {
     if (_formKey.currentState!.validate()) {
       final data = {
-        "name": _nameController.text,
+        "user_name": _nameController.text,
         "resident_number":
             "${_residentFrontController.text}-${_residentBackController.text}******",
         "phone": _phoneController.text,
@@ -59,8 +59,8 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
         "district": _selectedDistrict,
         "takes_medicine": _takesMedicine,
         "medicine_name": _takesMedicine ? _medicineController.text : null,
-        "username": _idController.text,
-        "password": _pwController.text,
+        "user_id": _idController.text,
+        "user_password": _pwController.text,
       };
 
       try {
