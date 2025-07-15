@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application/services/call_api.dart';
 import '../constant/colors.dart';
 import 'package:flutter_application/user_bottom_nav.dart';
 import 'package:flutter_application/pharmacy_bottom_nav.dart';
@@ -15,24 +16,37 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
 
+  String _loginErrorMessage = '';
   bool _isUser = true;
 
-  void _handleLogin() {
+  void _handleLogin() async {
     final id = _idController.text.trim();
     final pw = _pwController.text.trim();
 
-    print('로그인 유형: ${_isUser ? '회원' : '약국'}, ID: $id, PW: $pw');
+    if (id.isEmpty || pw.isEmpty) {
+      setState(() => _loginErrorMessage = '아이디와 비밀번호를 입력해주세요.');
+      return;
+    }
 
-    if (_isUser) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => UserBottomNav()),
-      );
-    } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => PharmacyBottomNav()),
-      );
+    try {
+      final response = _isUser
+          ? await ApiService.loginUser(id, pw)
+          : await ApiService.loginPharmacy(id, pw);
+
+      if (response.statusCode == 200) {
+        setState(() => _loginErrorMessage = '');
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                _isUser ? UserBottomNav() : PharmacyBottomNav(),
+          ),
+        );
+      } else {
+        setState(() => _loginErrorMessage = '아이디 또는 비밀번호가 올바르지 않습니다.');
+      }
+    } catch (e) {
+      setState(() => _loginErrorMessage = '서버에 연결할 수 없습니다.');
     }
   }
 
@@ -105,7 +119,10 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 16),
               Text(
                 _isUser ? '회원 로그인' : '약국 로그인',
-                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
               ),
               const SizedBox(height: 16),
               TextField(
@@ -113,11 +130,20 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: buildInputDecoration(hint: 'ID'),
               ),
               const SizedBox(height: 16),
-             TextField(
+              TextField(
                 controller: _pwController,
                 obscureText: true,
                 decoration: buildInputDecoration(hint: 'PW'),
               ),
+              if (_loginErrorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    _loginErrorMessage,
+                    style: const TextStyle(color: Colors.red, fontSize: 13),
+                  ),
+                ),
+
               const SizedBox(height: 24),
               SizedBox(
                 width: double.infinity,

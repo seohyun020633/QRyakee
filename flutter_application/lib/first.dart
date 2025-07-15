@@ -103,6 +103,7 @@ class FirstScreen extends StatelessWidget {
   void _showSignupDialog(BuildContext context) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
