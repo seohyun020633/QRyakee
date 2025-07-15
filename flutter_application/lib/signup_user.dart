@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application/first.dart';
 import '../constant/colors.dart';
 import '../constant/city_map.dart';
 import '../constant/input_styles.dart';
@@ -44,11 +46,60 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
 
   String? _selectedCity;
   String? _selectedDistrict;
+  bool _isUserIdChecked = false; // 중복 확인 버튼 눌렀는지
+  bool? _isUserIdAvailable; // null: 아직 안 눌렀음, true: 사용 가능, false: 중복
+  String _userIdCheckMessage = ''; // 안내 메시지
   bool _takesMedicine = false;
 
   final List<String> _cities = cityDistrictMap.keys.toList();
 
+  void _checkUserId() async {
+    final userId = _idController.text.trim();
+    _isUserIdChecked = true; // 버튼 누름 상태 표시
+
+    if (userId.length < 4) {
+      setState(() {
+        _isUserIdAvailable = false;
+        _userIdCheckMessage = "아이디는 4자 이상이어야 합니다.";
+      });
+      return;
+    }
+
+    try {
+      final response = await ApiService.checkUserId(userId);
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+        final exists = data['exists'] as bool;
+
+        setState(() {
+          _isUserIdAvailable = !exists;
+          _userIdCheckMessage = exists ? "이미 존재하는 아이디입니다." : "사용 가능한 아이디입니다.";
+        });
+      } else {
+        setState(() {
+          _isUserIdAvailable = false;
+          _userIdCheckMessage = "서버 오류가 발생했습니다.";
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _isUserIdAvailable = false;
+        _userIdCheckMessage = "에러가 발생했습니다.";
+      });
+    }
+  }
+
   void _handleSignup() async {
+    // 아이디 중복 확인 안됐거나 실패한 경우
+    if (!_isUserIdChecked || _isUserIdAvailable == false) {
+      setState(() {
+        _isUserIdChecked = true; // 메시지 출력 유도
+        _isUserIdAvailable = false;
+        _userIdCheckMessage = "아이디 중복을 확인해주세요.";
+      });
+      return;
+    }
+
     if (_formKey.currentState!.validate()) {
       final data = {
         "user_name": _nameController.text,
@@ -67,8 +118,15 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
         final response = await ApiService.userSignup(data);
         if (response.statusCode == 200) {
           print("회원가입 성공");
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => const FirstScreen()),
+          );
         } else {
-          print("회원가입 실패: ${response.body}");
+          if (response.statusCode == 409) {
+            _showPopupAndGoHome("이미 등록되어있는 전화번호입니다.");
+          } else {
+            _showPopupAndGoHome("회원가입 중 오류가 발생했습니다.");
+          }
         }
       } catch (e) {
         print("에러 발생: $e");
@@ -91,8 +149,25 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isIdError =
+        (_isUserIdChecked && _isUserIdAvailable == false) ||
+        (!_isUserIdChecked && _userIdCheckMessage.isNotEmpty);
+
+    final bool isIdValid = _isUserIdChecked && _isUserIdAvailable == true;
+
+    Color borderColor;
+    if (isIdError) {
+      borderColor = Colors.red;
+    } else if (isIdValid) {
+      borderColor = AppColors.primary;
+    } else {
+      borderColor = Colors.grey;
+    }
+
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           '사용자 회원가입',
@@ -128,7 +203,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                         FilteringTextInputFormatter.digitsOnly,
                         LengthLimitingTextInputFormatter(6),
                       ],
-                      decoration: buildInputDecoration(hint: '예: 900101'),
+                      decoration: buildInputDecoration(hint: '예: 990101'),
                       validator: (value) =>
                           value!.length != 6 ? '앞 6자리를 입력하세요.' : null,
                     ),
@@ -280,19 +355,113 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 color: Colors.grey, // 원하는 색상으로 바꿀 수 있음
               ),
 
-              TextFormField(
-                controller: _idController,
-                cursorColor: Colors.blueGrey,
-                decoration: buildInputDecoration(hint: '아이디'),
-                validator: (value) => value!.isEmpty ? '아이디를 입력하세요.' : null,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: SizedBox(
+                      height: 53,
+                      child: TextFormField(
+                        controller: _idController,
+                        cursorColor: Colors.blueGrey,
+                        style: const TextStyle(fontSize: 16),
+                        decoration: InputDecoration(
+                          hintText: '아이디',
+                          hintStyle: const TextStyle(fontSize: 16),
+                          contentPadding: const EdgeInsets.symmetric(
+                            vertical: 16,
+                            horizontal: 12,
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: borderColor,
+                              width: 1,
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide(
+                              color: borderColor,
+                              width: 2,
+                            ),
+                          ),
+                        ),
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return '아이디를 입력하세요.';
+                          }
+                          if (!_isUserIdChecked) return '아이디 중복 확인을 해주세요.';
+                          if (_isUserIdAvailable == false)
+                            return _userIdCheckMessage;
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  ElevatedButton(
+                    onPressed: _checkUserId,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      elevation: 0,
+                      minimumSize: const Size(73, 53), // TextFormField 높이 맞춤
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                    ),
+                    child: Text(
+                      "중복확인",
+                      style: TextStyle(
+                        color: AppColors.primary,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              if (_isUserIdChecked)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4, left: 4),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      _userIdCheckMessage,
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: _isUserIdAvailable == false
+                            ? Colors.red
+                            : AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ),
+
               const SizedBox(height: 16),
               TextFormField(
                 controller: _pwController,
                 cursorColor: Colors.blueGrey,
                 obscureText: true,
                 decoration: buildInputDecoration(hint: '비밀번호'),
-                validator: (value) => value!.isEmpty ? '비밀번호를 입력하세요.' : null,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '비밀번호를 입력해주세요.';
+                  }
+
+                  if (value.length < 6) {
+                    return '최소 6자리 이상이어야 합니다.';
+                  }
+
+                  final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(value);
+                  final hasNumber = RegExp(r'\d').hasMatch(value);
+                  final hasSpecial = RegExp(
+                    r'[!@#\$%^&*(),.?":{}|<>]',
+                  ).hasMatch(value);
+
+                  if (!hasLetter || !hasNumber || !hasSpecial) {
+                    return '영문, 숫자, 특수문자 각각 1자 이상 포함해야 합니다.';
+                  }
+
+                  return null;
+                },
               ),
               const SizedBox(height: 16),
               TextFormField(
@@ -302,6 +471,23 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 decoration: buildInputDecoration(hint: '비밀번호 재입력'),
                 validator: (value) {
                   if (value!.isEmpty) return '비밀번호를 재입력하세요.';
+                  if (value.isEmpty) {
+                    return '비밀번호를 입력해주세요.';
+                  }
+
+                  if (value.length < 6) {
+                    return '최소 6자리 이상이어야 합니다.';
+                  }
+
+                  final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(value);
+                  final hasNumber = RegExp(r'\d').hasMatch(value);
+                  final hasSpecial = RegExp(
+                    r'[!@#\$%^&*(),.?":{}|<>]',
+                  ).hasMatch(value);
+
+                  if (!hasLetter || !hasNumber || !hasSpecial) {
+                    return '영문, 숫자, 특수문자 각각 1자 이상 포함해야 합니다.';
+                  }
                   if (value != _pwController.text) return '비밀번호가 일치하지 않습니다.';
                   return null;
                 },
@@ -326,6 +512,38 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
         ),
       ),
     );
+  }
+
+  void _showPopupAndGoHome(String message) {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      barrierColor: Colors.black.withOpacity(0.4), // 배경 불투명하게
+      builder: (context) => AlertDialog(
+        title: const Text('오류'),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // 팝업 닫기
+              Navigator.of(context).pop(); // 홈 화면으로 이동
+            },
+            child: const Text('확인'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Color _getUserIdBorderColor() {
+    if (_isUserIdChecked) {
+      if (_isUserIdAvailable == false) {
+        return Colors.red;
+      } else if (_isUserIdAvailable == true) {
+        return AppColors.primary;
+      }
+    }
+    return Colors.grey;
   }
 }
 
