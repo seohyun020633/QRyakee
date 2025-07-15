@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from db import get_connection
+import bcrypt 
 
 router = APIRouter()
 
@@ -15,10 +16,13 @@ class UserSignup(BaseModel):
     medicine_name: str | None
     user_password: str
 
-@router.post("/")
+@router.post("/", summary="사용자 회원가입")
 def signup_user(user: UserSignup):
     conn = get_connection()
     cursor = conn.cursor()
+
+    hashed_user_pw = bcrypt.hashpw(user.user_password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+
     query = """
         INSERT INTO users
         (user_id, user_name, resident_number, phone, city, district,
@@ -35,7 +39,7 @@ def signup_user(user: UserSignup):
             user.district,
             user.takes_medicine,
             user.medicine_name,
-            user.user_password
+            hashed_user_pw
         ))
         conn.commit()
         print("✅ DB에 저장 완료")
@@ -44,8 +48,11 @@ def signup_user(user: UserSignup):
     except Exception as e:
         conn.rollback()
         print("❌ DB 에러:", e)
+
+        if "Duplicate entry" in str(e) and "phone" in str(e):
+            raise HTTPException(status_code=409, detail="이미 등록되어있는 전화번호입니다.")
+
         raise HTTPException(status_code=400, detail="DB 오류 발생")
     finally:
         cursor.close()
         conn.close()
-

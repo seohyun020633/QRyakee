@@ -1,23 +1,22 @@
 from fastapi import FastAPI
-from routes.signup import user_signup
-# from routes.login import user_login, pharmacy_login
+from routes.signup.signup_user import router as signup_user
+from routes.signup.check_user_id import router as check_user_id_router
+from routes.login.login_user import router as login_user
 from fastapi.middleware.cors import CORSMiddleware
-
 
 app = FastAPI()
 
+# CORS 설정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 전체 허용 (개발용)
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 회원가입 API
-app.include_router(user_signup.router, prefix="/signup/user",tags=["User Signup"])
-# app.include_router(pharmacy_signup.router, prefix="/pharmacy/signup")
+# 사용자
+app.include_router(signup_user, prefix="/signup/user", tags=["User"])
+app.include_router(login_user, prefix="/login/user", tags=["User"])
+app.include_router(check_user_id_router, prefix="/signup/check_user_id", tags=["User"])
 
-# # 로그인 API
-# app.include_router(user_login.router, prefix="/login/user")
-# app.include_router(pharmacy_login.router, prefix="/login/pharmacy")
