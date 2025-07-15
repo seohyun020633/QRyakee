@@ -184,120 +184,142 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
           key: _formKey,
           child: Column(
             children: [
-              TextFormField(
-                controller: _nameController,
-                cursorColor: Colors.blueGrey,
-                decoration: buildInputDecoration(hint: '이름'),
-                validator: (value) => value!.isEmpty ? '이름을 입력하세요.' : null,
+              SizedBox(
+                height: 53,
+                child: TextFormField(
+                  controller: _nameController,
+                  cursorColor: Colors.blueGrey,
+                  decoration: buildInputDecoration(hint: '이름'),
+                  validator: (value) => value!.isEmpty ? '이름을 입력하세요.' : null,
+                ),
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
                     flex: 3,
-                    child: TextFormField(
-                      controller: _residentFrontController,
-                      cursorColor: Colors.blueGrey,
-                      keyboardType: TextInputType.number,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(6),
-                      ],
-                      decoration: buildInputDecoration(hint: '예: 990101'),
-                      validator: (value) =>
-                          value!.length != 6 ? '앞 6자리를 입력하세요.' : null,
+                    child: SizedBox(
+                      height: 53,
+                      child: TextFormField(
+                        controller: _residentFrontController,
+                        cursorColor: Colors.blueGrey,
+                        keyboardType: TextInputType.number,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(6),
+                        ],
+                        decoration: buildInputDecoration(hint: '예: 990101'),
+                        validator: (value) =>
+                            value!.length != 6 ? '앞 6자리를 입력하세요.' : null,
+                      ),
                     ),
                   ),
+
                   const Padding(
                     padding: EdgeInsets.symmetric(horizontal: 8),
                     child: Text('-', style: TextStyle(fontSize: 20)),
                   ),
                   Expanded(
                     flex: 1,
-                    child: TextFormField(
-                      controller: _residentBackController,
-                      cursorColor: Colors.blueGrey,
-                      keyboardType: TextInputType.number,
-                      obscureText: false,
-                      inputFormatters: [
-                        FilteringTextInputFormatter.digitsOnly,
-                        LengthLimitingTextInputFormatter(1),
-                      ],
-                      decoration: buildInputDecoration(hint: '뒷자리 첫숫자'),
-                      validator: (value) =>
-                          value!.length != 1 ? '1자리를 입력하세요.' : null,
+                    child: SizedBox(
+                      height: 53,
+                      child: TextFormField(
+                        controller: _residentBackController,
+                        cursorColor: Colors.blueGrey,
+                        keyboardType: TextInputType.number,
+                        obscureText: false,
+                        inputFormatters: [
+                          FilteringTextInputFormatter.digitsOnly,
+                          LengthLimitingTextInputFormatter(1),
+                        ],
+                        decoration: buildInputDecoration(hint: '뒷자리 첫숫자'),
+                        validator: (value) =>
+                            value!.length != 1 ? '1자리를 입력하세요.' : null,
+                      ),
                     ),
                   ),
+
                   const SizedBox(width: 8),
                   const Text('●●●●●●', style: TextStyle(fontSize: 18)),
                 ],
               ),
               const SizedBox(height: 16),
-              TextFormField(
-                controller: _phoneController,
-                cursorColor: Colors.blueGrey,
-                keyboardType: TextInputType.number,
-                inputFormatters: [
-                  FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(13), // 최대 길이 제한
-                  PhoneNumberFormatter(),
-                ],
-                decoration: buildInputDecoration(hint: '000-0000-0000'),
-                validator: (value) {
-                  final phoneReg = RegExp(r'^\d{3}-\d{4}-\d{4}$');
-                  if (value == null || !phoneReg.hasMatch(value)) {
-                    return '형식: 000-0000-0000';
-                  }
-                  return null;
-                },
+             SizedBox(
+                height: 53,
+                child: TextFormField(
+                  controller: _phoneController,
+                  cursorColor: Colors.blueGrey,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(13), // 최대 길이 제한
+                    PhoneNumberFormatter(),
+                  ],
+                  decoration: buildInputDecoration(hint: '000-0000-0000'),
+                  validator: (value) {
+                    final phoneReg = RegExp(r'^\d{3}-\d{4}-\d{4}$');
+                    if (value == null || !phoneReg.hasMatch(value)) {
+                      return '형식: 000-0000-0000';
+                    }
+                    return null;
+                  },
+                ),
               ),
               const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: _selectedCity,
-                      decoration: buildInputDecoration(hint: '시/도'),
-                      items: _cities
-                          .map(
-                            (city) => DropdownMenuItem(
-                              value: city,
-                              child: Text(city),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedCity = value;
-                          _selectedDistrict = null;
-                        });
-                      },
-                      validator: (value) =>
-                          value == null ? '시/도를 선택하세요.' : null,
+                    child: SizedBox(
+                      height: 53,
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedCity,
+                        decoration: buildInputDecoration(hint: '시/도'),
+                        items: _cities
+                            .map(
+                              (city) => DropdownMenuItem(
+                                value: city,
+                                child: Text(city),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedCity = value;
+                            _selectedDistrict = null;
+                          });
+                        },
+                        validator: (value) =>
+                            value == null ? '시/도를 선택하세요.' : null,
+                      ),
                     ),
                   ),
+
                   const SizedBox(width: 16),
                   Expanded(
-                    child: DropdownButtonFormField<String>(
-                      value: _selectedDistrict,
-                      decoration: buildInputDecoration(hint: '구/군'),
-                      items: (cityDistrictMap[_selectedCity] ?? [])
-                          .map(
-                            (district) => DropdownMenuItem(
-                              value: district,
-                              child: Text(district),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) {
-                        setState(() {
-                          _selectedDistrict = value;
-                        });
-                      },
-                      validator: (value) =>
-                          value == null ? '구/군을 선택하세요.' : null,
+                    child: SizedBox(
+                      height: 53,
+                      child: DropdownButtonFormField<String>(
+                        value: _selectedDistrict,
+                        decoration: buildInputDecoration(hint: '구/군'),
+                        items: (cityDistrictMap[_selectedCity] ?? [])
+                            .map(
+                              (district) => DropdownMenuItem(
+                                value: district,
+                                child: Text(district),
+                              ),
+                            )
+                            .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedDistrict = value;
+                          });
+                        },
+                        validator: (value) =>
+                            value == null ? '구/군을 선택하세요.' : null,
+                      ),
                     ),
                   ),
+
                 ],
               ),
               const SizedBox(height: 16),
@@ -340,13 +362,17 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
               ),
 
               if (_takesMedicine)
-                TextFormField(
-                  controller: _medicineController,
-                  cursorColor: Colors.blueGrey,
-                  decoration: buildInputDecoration(hint: '복용 중인 약 이름'),
-                  validator: (value) =>
-                      _takesMedicine && value!.isEmpty ? '약 이름을 입력하세요.' : null,
+                SizedBox(
+                  height: 53,
+                  child: TextFormField(
+                    controller: _medicineController,
+                    cursorColor: Colors.blueGrey,
+                    decoration: buildInputDecoration(hint: '복용 중인 약 이름'),
+                    validator: (value) =>
+                        _takesMedicine && value!.isEmpty ? '약 이름을 입력하세요.' : null,
+                  ),
                 ),
+
               if (_takesMedicine) const SizedBox(height: 16),
 
               const Divider(
@@ -436,62 +462,70 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                 ),
 
               const SizedBox(height: 16),
-              TextFormField(
-                controller: _pwController,
-                cursorColor: Colors.blueGrey,
-                obscureText: true,
-                decoration: buildInputDecoration(hint: '비밀번호'),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '비밀번호를 입력해주세요.';
-                  }
+              SizedBox(
+                height: 53,
+                child: TextFormField(
+                  controller: _pwController,
+                  cursorColor: Colors.blueGrey,
+                  obscureText: true,
+                  decoration: buildInputDecoration(hint: '비밀번호'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return '비밀번호를 입력해주세요.';
+                    }
 
-                  if (value.length < 6) {
-                    return '최소 6자리 이상이어야 합니다.';
-                  }
+                    if (value.length < 6) {
+                      return '최소 6자리 이상이어야 합니다.';
+                    }
 
-                  final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(value);
-                  final hasNumber = RegExp(r'\d').hasMatch(value);
-                  final hasSpecial = RegExp(
-                    r'[!@#\$%^&*(),.?":{}|<>]',
-                  ).hasMatch(value);
+                    final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(value);
+                    final hasNumber = RegExp(r'\d').hasMatch(value);
+                    final hasSpecial = RegExp(
+                      r'[!@#\$%^&*(),.?":{}|<>]',
+                    ).hasMatch(value);
 
-                  if (!hasLetter || !hasNumber || !hasSpecial) {
-                    return '영문, 숫자, 특수문자 각각 1자 이상 포함해야 합니다.';
-                  }
+                    if (!hasLetter || !hasNumber || !hasSpecial) {
+                      return '영문, 숫자, 특수문자 각각 1자 이상 포함해야 합니다.';
+                    }
 
-                  return null;
-                },
+                    return null;
+                  },
+                ),
               ),
+
               const SizedBox(height: 16),
-              TextFormField(
-                controller: _pwConfirmController,
-                cursorColor: Colors.blueGrey,
-                obscureText: true,
-                decoration: buildInputDecoration(hint: '비밀번호 재입력'),
-                validator: (value) {
-                  if (value!.isEmpty) return '비밀번호를 재입력하세요.';
-                  if (value.isEmpty) {
-                    return '비밀번호를 입력해주세요.';
-                  }
+              SizedBox(
+                height: 53,
+                child: TextFormField(
+                  controller: _pwConfirmController,
+                  cursorColor: Colors.blueGrey,
+                  obscureText: true,
+                  decoration: buildInputDecoration(hint: '비밀번호 재입력'),
+                  validator: (value) {
+                    if (value!.isEmpty) return '비밀번호를 재입력하세요.';
+                    if (value.isEmpty) {
+                      return '비밀번호를 입력해주세요.';
+                    }
 
-                  if (value.length < 6) {
-                    return '최소 6자리 이상이어야 합니다.';
-                  }
+                    if (value.length < 6) {
+                      return '최소 6자리 이상이어야 합니다.';
+                    }
 
-                  final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(value);
-                  final hasNumber = RegExp(r'\d').hasMatch(value);
-                  final hasSpecial = RegExp(
-                    r'[!@#\$%^&*(),.?":{}|<>]',
-                  ).hasMatch(value);
+                    final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(value);
+                    final hasNumber = RegExp(r'\d').hasMatch(value);
+                    final hasSpecial = RegExp(
+                      r'[!@#\$%^&*(),.?":{}|<>]',
+                    ).hasMatch(value);
 
-                  if (!hasLetter || !hasNumber || !hasSpecial) {
-                    return '영문, 숫자, 특수문자 각각 1자 이상 포함해야 합니다.';
-                  }
-                  if (value != _pwController.text) return '비밀번호가 일치하지 않습니다.';
-                  return null;
-                },
+                    if (!hasLetter || !hasNumber || !hasSpecial) {
+                      return '영문, 숫자, 특수문자 각각 1자 이상 포함해야 합니다.';
+                    }
+                    if (value != _pwController.text) return '비밀번호가 일치하지 않습니다.';
+                    return null;
+                  },
+                ),
               ),
+
               const SizedBox(height: 32),
               SizedBox(
                 width: double.infinity,
