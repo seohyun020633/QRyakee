@@ -9,7 +9,7 @@ InputDecoration buildInputDecoration({
     hintText: hint,
     filled: true,
     fillColor: Colors.white,
-    contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+    contentPadding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
     border: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
       borderSide: BorderSide(color: Colors.grey.shade300),

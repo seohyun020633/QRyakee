@@ -259,9 +259,9 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                   controller: _nameController,
                   cursorColor: Colors.blueGrey,
                   decoration: buildInputDecoration(hint: '이름'),
-                  validator: (value) => value!.isEmpty ? '이름을 입력하세요.' : null,
+                  validator: (value) => value == null || value.isEmpty ? '이름을 입력하세요.' : null,
                 ),
-              ),
+              ),  
               const SizedBox(height: 16),
               Row(
                 children: [
