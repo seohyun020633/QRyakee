@@ -303,7 +303,7 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
                         ],
                         decoration: buildInputDecoration(hint: '뒷자리 첫숫자'),
                         validator: (value) =>
-                            value!.length != 1 ? '1자리를 입력하세요.' : null,
+                            value!.length != 1 ? '필수' : null,
                       ),
                     ),
                   ),
