@@ -90,21 +90,69 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
   }
 
   void _handleSignup() async {
-    // 아이디 중복 확인 안됐거나 실패한 경우
+    //1. null 체크
+    if (_nameController.text.isEmpty) {
+      _showSnack("이름을 입력하세요."); return;
+    }
+    if (_residentFrontController.text.isEmpty || _residentFrontController.text.length != 6) {
+      _showSnack("주민번호 앞 6자리를 입력하세요."); return;
+    }
+    if (_residentBackController.text.isEmpty || _residentBackController.text.length != 1) {
+      _showSnack("주민번호 뒷자리 첫 숫자를 입력하세요."); return;
+    }
+    if (_phoneController.text.isEmpty) {
+      _showSnack("전화번호를 입력하세요."); return;
+    }
+    if (_selectedCity == null) {
+      _showSnack("시/도를 선택하세요."); return;
+    }
+    if (_selectedDistrict == null) {
+      _showSnack("구/군을 선택하세요."); return;
+    }
+    if (_takesMedicine && _medicineController.text.isEmpty) {
+      _showSnack("약 이름을 입력하세요."); return;
+    }
+    if (_idController.text.isEmpty) {
+      _showSnack("아이디를 입력하세요."); return;
+    }
+    if (_pwController.text.isEmpty) {
+      _showSnack("비밀번호를 입력하세요."); return;
+    }
+    if (_pwConfirmController.text.isEmpty) {
+      _showSnack("비밀번호를 재입력하세요."); return;
+    }
+
+    // 2. 아이디 중복 체크
     if (!_isUserIdChecked || _isUserIdAvailable == false) {
       setState(() {
-        _isUserIdChecked = true; // 메시지 출력 유도
+        _isUserIdChecked = true;
         _isUserIdAvailable = false;
         _userIdCheckMessage = "아이디 중복을 확인해주세요.";
       });
+      _showSnack(_userIdCheckMessage);
+      return;
+    }
+
+    // 3. 비밀번호 유효성
+    final pw = _pwController.text;
+    final hasLetter = RegExp(r'[a-zA-Z]').hasMatch(pw);
+    final hasNumber = RegExp(r'\d').hasMatch(pw);
+    final hasSpecial = RegExp(r'[!@#\$%^&*(),.?":{}|<>]').hasMatch(pw);
+    if (pw.length < 6 || !hasLetter || !hasNumber || !hasSpecial) {
+      _showSnack("비밀번호는 영문, 숫자, 특수문자를 각각 1자 이상 포함하고 6자리 이상이어야 합니다.");
+      return;
+    }
+
+    // 4. 비밀전호 일치 체크
+    if (_pwController.text != _pwConfirmController.text) {
+      _showSnack("비밀번호가 일치하지 않습니다.");
       return;
     }
 
     if (_formKey.currentState!.validate()) {
       final data = {
         "user_name": _nameController.text,
-        "resident_number":
-            "${_residentFrontController.text}-${_residentBackController.text}******",
+        "resident_number": "${_residentFrontController.text}-${_residentBackController.text}******",
         "phone": _phoneController.text,
         "city": _selectedCity,
         "district": _selectedDistrict,
@@ -133,6 +181,13 @@ class _UserSignupScreenState extends State<UserSignupScreen> {
       }
     }
   }
+
+  void _showSnack(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text(message)),
+    );
+  }
+
 
   @override
   void dispose() {
